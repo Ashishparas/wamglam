@@ -14,6 +14,6 @@ class ContactUs extends Model
     protected $primaryKey = 'id';
     
     
-    protected $fillable = ['user_id','name', 'email', 'subject','message'];
+    protected $fillable = ['user_id','name', 'email', 'subject','message','created_at','updated_at'];
     
 }

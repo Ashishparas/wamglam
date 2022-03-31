@@ -188,7 +188,7 @@ class ApiController extends \App\Http\Controllers\Controller {
     $phonecode =     str_replace('+','', trim($user->phonecode));
     $phonecode = '+'.$phonecode;
   
-          return self::sendTextMessage('<#> Your ' . config('app.name') . ' OTP is ' . $otp.' Use this to verify your mobile '. config('app.name') ,$phonecode,$user->mobile_no);
+        return self::sendTextMessage('<#> Your ' . config('app.name') . ' OTP is ' . $otp.' Use this to verify your mobile '. config('app.name') ,$phonecode,$user->mobile_no);
     
         // dd('otp');
     }

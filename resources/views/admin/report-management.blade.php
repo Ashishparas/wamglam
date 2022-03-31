@@ -14,9 +14,13 @@
                                             <tr>
                                                 <th width="100px">Name</th>
                                                 <th>Email Id</th>
+                                                <th>Created at</th>
                                                 <!--<th>Phone No</th>-->
                                                 <th>Subject</th>
-                                                <th>Message</th>
+                                                <th >Message</th>
+                                                
+                                                
+                                                
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -26,9 +30,12 @@
                                             <tr>
                                                 <td><?php echo $report['name']; ?></td>
                                                 <td><strong><?php echo $report['email']; ?></strong></td>
+                                                 <td><?php echo $report['created_at']; ?></td>
                                                 <!--<td><strong>9875845852</strong></td>-->
                                                 <td><?php echo $report['subject']; ?></td>
-                                                <td><?php echo $report['message']; ?></td>
+                                                <td style="word-wrap:break-word"><?php echo $report['message']; ?></td>
+                                               
+                                                
                                                 <td><a href="mailto:admin@wamglam.com" class="btn btn-primary btn-xs sharp me-1">Report</a></td>												
                                             </tr>
                                             @endforeach
