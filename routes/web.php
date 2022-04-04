@@ -77,6 +77,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('artist-management-detail/{id}','Admin\ArtistController@artist_detail');
     Route::get('user-management','Admin\UsersController@user');
     Route::get('user-detail/{id}','Admin\UsersController@user_detail');
+    Route::post('change_mobile_no','Admin\UsersController@change_mobile_no');
     
     
 }); 

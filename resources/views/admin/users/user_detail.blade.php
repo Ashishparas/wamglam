@@ -42,12 +42,39 @@
                                         <h4 class="mb-0">{{$detail1->gender}}</h4>
                                     </div>
                                 </div>
-                                <div class="mb-5 row">
-                                    <label class="col-lg-5 col-form-label" for="validationCustom05">Any Known Altergles(Optional) </label>
+                                
+                                
+                                <div class="mb-3 row">
+                                    <label class="col-lg-5 col-form-label" for="validationCustom05">Contact </label>
                                     <div class="col-lg-7 pt-1">
-                                        <h4 class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h4>
+                                  
+                                        @if ($message = Session::get('success'))
+                                        <div class="alert alert-success alert-block">
+                                        	<!--<button type="button" class="close" data-dismiss="alert">×</button>	-->
+                                                <strong>{{ $message }}</strong>
+                                        </div>
+                                        @endif
+                                    
+                                        <h4 class="mb-0">{{$detail1->mobile_no}}</h4><span class="btn btn-primary blog_btn btn-rounded edit" data-id="show">Edit</span>
+                                        <div id="change_no" style="display:none;">
+                                            <form action="{{url('admin/change_mobile_no')}}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="user_id" value="{{$detail1->id}}"/>
+                                                <input type="text" name="mobile_no" value="{{$detail1->mobile_no}}" class="form-control" style="margin:10px;">
+                                                <input type="submit" name="submit" class="btn btn-primary blog_btn btn-rounded" value="Change">
+                                            </form>
+                                            
+                                        </div>
+                                        
                                     </div>
                                 </div>
+                                
+                                <!--<div class="mb-5 row">-->
+                                <!--    <label class="col-lg-5 col-form-label" for="validationCustom05">Any Known Altergles(Optional) </label>-->
+                                <!--    <div class="col-lg-7 pt-1">-->
+                                <!--        <h4 class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h4>-->
+                                <!--    </div>-->
+                                <!--</div>-->
                             </div>
                         </div>
                     </div>
@@ -81,6 +108,18 @@
                     </div>
                     @endforeach
                     </div>
+           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $(".edit").click(function(){
+   
+        $("#change_no").toggle();
+   
+  });
+  
+
+});
+</script>
             
           
         @endsection

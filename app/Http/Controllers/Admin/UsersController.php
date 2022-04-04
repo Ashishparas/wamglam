@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Hash;
+use App\User;
 use App\ContactUs;
 
 class UsersController extends Controller {
@@ -17,6 +18,19 @@ class UsersController extends Controller {
     	$detail = DB::select("SELECT * FROM `users` WHERE id='$request->id'");
     	return view('admin.users.user_detail')->with('detail',$detail);
 
+    }
+    
+    public function change_mobile_no(Request $request){
+       $input = $request->all();
+       if($input['mobile_no'] !== ''):
+           
+           $user = User::find($input['user_id']);
+        //   dd($user->mobile_no);
+           $user->mobile_no = $input['mobile_no'];
+           $user->save();
+           return back()->with('success', 'Contact info changed successfully!');
+           endif;
+           return back();
     }
     public function changePassword(Request $request){
         $data = $request->all();
