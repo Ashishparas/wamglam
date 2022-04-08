@@ -57,8 +57,8 @@
                       <h1>WamGlamz – Your Beauty Salon In Your Pocket!</h1>
                       <p>The Ultimate Beauty Solution. Book Your Appointment when you want, from where you want, with whom you want! Download it, and get glamorous!</p>
                       <div class="play_store_btns">
-                        <a  class="google_store d-inline-block me-3" href=""><img src="{{asset('public/website/img/apple-store.png')}}" alt="buttons"/></a>
-                        <a  class="apple_store d-inline-block" href=""><img src="{{asset('public/website/img/google-store.png')}}" alt="buttons"/></a>
+                        <a  class="google_store d-inline-block me-3" href="https://apps.apple.com/ca/app/wamglamz/id1613316234"><img src="{{asset('public/website/img/apple-store.png')}}" alt="buttons"/></a>
+                        <a  class="apple_store d-inline-block" href="https://play.google.com/store/apps/details?id=com.wamglamz"><img src="{{asset('public/website/img/google-store.png')}}" alt="buttons"/></a>
                       </div> 
                     </div>
                   </div>
@@ -225,8 +225,8 @@
                 <div class="playstore_sec">
                   <h6 class="text-white">Download Our App</h6>
                   <div class="play_store_btns">
-                    <a  class="google_store d-inline-block me-3" href=""><img src="{{asset('public/website/img/apple-store.png')}}" alt="buttons"/></a>
-                    <a  class="apple_store d-inline-block" href=""><img src="{{asset('public/website/img/google-store.png')}}" alt="buttons"/></a>
+                    <a  class="google_store d-inline-block me-3" href="https://apps.apple.com/ca/app/wamglamz/id1613316234"><img src="{{asset('public/website/img/apple-store.png')}}" alt="buttons"/></a>
+                    <a  class="apple_store d-inline-block" href="https://play.google.com/store/apps/details?id=com.wamglamz"><img src="{{asset('public/website/img/google-store.png')}}" alt="buttons"/></a>
                   </div>
                 </div>
               </div>
