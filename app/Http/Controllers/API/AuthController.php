@@ -323,7 +323,10 @@ class AuthController extends ApiController {
                 $user = User::findOrFail(Auth::id());
                
                 if(!empty($user->mobile_no)):
-                    // dd('!empty mobile_no');
+                    
+                        $user->phonecode = $input['phonecode'];
+                        $user->mobile_no = $input['mobile_no'];
+                        $user->save();
                         parent::sendOTPUser($user);
                         else:
                             // dd(' mobile_no');
@@ -463,7 +466,7 @@ class AuthController extends ApiController {
     
     public  function ArtistCreateProfile(Request  $request){
       
-      $rules = ['zipcode' => '', 'experience' => 'required','license_no' => 'required','upload_id'=>'required','profile_picture'=> 'required','fname' =>'required','lname'=>'required'];
+      $rules = ['zipcode' => '', 'experience' => 'required','license_no' => '','upload_id'=>'','profile_picture'=> 'required','fname' =>'required','lname'=>'required'];
       $validateAttributes = parent::validateAttributes($request,'POST', $rules, array_keys($rules), false);
       if($validateAttributes):
           return $validateAttributes;
