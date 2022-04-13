@@ -312,7 +312,7 @@ class AuthController extends ApiController {
     public function resendOTP(Request $request){
         // dd(Auth::id());
         $rules = ['phonecode' => '', 'mobile_no' => ''];
-        $validateAttributes = parent::validateAttributes($request, 'POST', $rules, array_keys($rules), true);
+        $validateAttributes = parent::validateAttributes($request, 'POST', $rules, array_keys($rules), false);
         
         if($validateAttributes):
             return $validateAttributes;
@@ -321,20 +321,24 @@ class AuthController extends ApiController {
             try{
                 $input = $request->all();
                 $user = User::findOrFail(Auth::id());
-               
-                if(!empty($user->mobile_no)):
+                
+                if(isset($input['mobile_no']) && isset($input['phonecode'])){
+                    $user->phonecode = $input['phonecode'];
+                    $user->mobile_no = $input['mobile_no'];
+                    $user->save();
+                    parent::sendOTPUser($user);
+                }else{
                     
-                        $user->phonecode = $input['phonecode'];
-                        $user->mobile_no = $input['mobile_no'];
-                        $user->save();
+                    if(!empty($user->mobile_no)):
+                    
+                        // $user->phonecode = $input['phonecode'];
+                        // $user->mobile_no = $input['mobile_no'];
+                        // $user->save();
                         parent::sendOTPUser($user);
-                        else:
-                            // dd(' mobile_no');
-                        $user->phonecode = $input['phonecode'];
-                        $user->mobile_no = $input['mobile_no'];
-                        $user->save();
-                        parent::sendOTPUser($user);
-                    endif;
+                    endif;    
+                }
+               
+                
                 $UserData = User::select($this->LoginAttributes)->where('id', Auth::id())->first();
                 return parent::success(['message' => 'OTP has been send successfully to your number!', 'user' => $UserData]);
             
@@ -361,7 +365,7 @@ class AuthController extends ApiController {
                 $user = User::where('id', Auth::id())->where('otp', $otp)->first();
             
                 if(is_null($user) === true):
-                        return  parent::error(['message' => $otp.' OTP does not match']);
+                        return  parent::error($otp.' OTP does not match');
                     endif;
                 
                     // $user = new User();
