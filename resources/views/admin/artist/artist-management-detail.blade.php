@@ -38,7 +38,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="col-xl-12 col-xxl-12 col-12 text-center">
                                         <div class="form-check custom-checkbox mb-3">
-                                            <input type="checkbox" class="form-check-input float-none" id="customCheckBox1" required="">
+                                            <input type="checkbox" class="form-check-input float-none" id="customCheckBox1" required="" checked disable>
                                             <label class="form-check-label mb-0 pt-0 fs-5" for="customCheckBox1"><strong>Verify Agent</strong></label>
                                         </div>
                                     </div>

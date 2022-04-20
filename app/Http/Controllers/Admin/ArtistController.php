@@ -9,7 +9,7 @@ use App\Blog;
 class ArtistController extends Controller {
 
  public function artists(){
- 	$users = DB::select('select id,name,mobile_no,email from users where type=2');
+ 	$users = DB::select('select id,name,mobile_no,email, created_at from users where type=2');
  	return view('admin.artist.artist-management')->with('data',$users);
  }
  public function artist_detail(Request $request){

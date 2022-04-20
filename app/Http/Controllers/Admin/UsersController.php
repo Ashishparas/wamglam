@@ -11,7 +11,7 @@ use App\ContactUs;
 class UsersController extends Controller {
 
     public function user(){
-    	$users = DB::select('select id,name,mobile_no,email from users');
+    	$users = DB::select('select id,name,mobile_no,email,created_at from users');
         return view('admin.users.user-management')->with('data',$users);
     }
     public function user_detail(Request $request){

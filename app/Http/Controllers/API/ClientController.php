@@ -86,7 +86,7 @@ class ClientController extends ApiController
     
     
    public  function UpdateProfile(Request  $request){
-      $rules = ['fname'=>'required','lname' => 'required','phonecode' => 'required','mobile_no' =>'required', 'zipcode' => 'required', 'dob' => 'required','gender' => 'required','description'=>'','profile_picture'=> ''];
+      $rules = ['fname'=>'required','lname' => 'required','phonecode' => 'required','mobile_no' =>'required', 'zipcode' => '', 'dob' => 'required','gender' => 'required','description'=>'','profile_picture'=> ''];
       $validateAttributtes = parent::validateAttributes($request, 'POST', $rules, array_keys($rules),  false);
       if($validateAttributtes):
           return $validateAttributtes;

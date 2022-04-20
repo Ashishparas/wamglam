@@ -13,6 +13,7 @@
                                                 <th>Name</th>
                                                 <th>Mobile</th>
                                                 <th>Email</th>
+                                                <th>Created At</th>
                                                 <th width="180px">Action</th>
                                             </tr>
                                         </thead>
@@ -22,6 +23,10 @@
                                                 <td><img class="rounded-circle" width="35" src="images/photo1.png" alt="">{{$data1->name}}</td>
                                                 <td><strong>{{$data1->mobile_no}}</strong></td>
                                                 <td><strong>{{$data1->email}}</strong></td>
+                                                <td><strong><?php
+                                                $date=date_create($data1->created_at);
+                                                echo date_format($date,"M/d/Y H:i");
+                                                ?></strong></td>
                                                 <td>
 													<div class="d-flex justify-content-space-around">
 														<a href="user-detail/{{$data1->id}}" class="btn btn-primary btn-xs sharp me-1">View Detail</a>
