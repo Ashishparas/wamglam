@@ -1152,7 +1152,7 @@ class ArtistController extends ApiController
     
     
     public function ViewBookingById(Request $request){
-    //   dd(Auth::id());
+   
         $rules = ['booking_id' => 'required'];
         $validateAttributes = parent::validateAttributes($request, 'POST', $rules, array_keys($rules), true);
         
@@ -1163,19 +1163,31 @@ class ArtistController extends ApiController
             try{
                 
                 $input = $request->all();
-                // DB::enableQueryLog();  ClientAvgRating
-                $booking = Booking::where('id', $request->booking_id)->with('ClientAvgRating','RatingByClient','client_details','OfferDetails','CancelNote')->orderBy('created_at', 'DESC')->first();
-              
-                $charge = \App\ChargePayment::select('charge_id','brand', 'network_status')->where('booking_id', $request->booking_id)->first();
-                //   dd($charge);
+               
+                $booking = Booking::where('id', $request->booking_id)
+                                    ->with('ClientAvgRating','RatingByClient','client_details','OfferDetails','CancelNote')
+                                    ->orderBy('created_at', 'DESC')
+                                    ->first();
+               
+                $charge = \App\ChargePayment::select('charge_id','brand', 'network_status')
+                                            ->where('booking_id', $request->booking_id)
+                                            ->first();
+            //   dd($charge);
                 $booking['transaction_id'] = $charge['charge_id'];
                 $booking['method'] = $charge['brand'];
                 $booking['message'] = $charge['network_status'];
-                // dd(DB::getQueryLog());
-                $ratings = Rating::select('id',DB::raw('ratings as rating'),'reviews','created_at')->where('activity_id', $booking->id)->where('rating_by',$booking->artist_id)->first();
-                $booking['rating_by_artist'] = $ratings;
-                $availability = \App\Availability::select('shop_name','address','city','zipcode','description')->where('user_id',$booking->artist_id)->first();
+             
+                    $ratings = Rating::select('id',DB::raw('ratings as rating'),'reviews','created_at')
+                                    ->where('activity_id', $booking->id)
+                                    ->where('rating_by',$booking->artist_id)
+                                    ->first();
+                    $booking['rating_by_artist'] = $ratings;
+                $availability = \App\Availability::select('shop_name','address','city','zipcode','description')
+                                ->where('user_id',$booking->artist_id)
+                                ->first();
                 $booking['artist_availability'] = $availability;
+                $payment = \App\Payment::where('user_id', $booking->artist_id)->first();
+                $booking['artist_card_details'] =(!$payment)?0:1; 
                 return parent::success(['message'=> 'Booking details view successfully!', 'booking' => $booking]);
             }catch(\Exception $ex){
                 return parent::error($ex->getMessage());

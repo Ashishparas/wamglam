@@ -14,6 +14,8 @@ class ArtistController extends Controller {
  }
  public function artist_detail(Request $request){
  	$detail = DB::select("SELECT * FROM `users` WHERE id='$request->id'");
+ 	$availability = \App\Availability::where('user_id', $request->id)->first();
+//  	dd($availability->distance_range_price[1]);
  	return view('admin.artist.artist-management-detail')->with('data',$detail);
  }
  
