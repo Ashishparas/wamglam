@@ -1197,6 +1197,34 @@ class ArtistController extends ApiController
     }
     
     
+    
+    public function SetDefaultPayment(Request $request)
+    {
+      
+        $rules = ['card_id' => 'required|exists:payments,id','status' => 'required|in:0,1'];
+        $validateAttributes = parent::validateAttributes($request, 'POST', $rules, array_keys($rules), true);
+        if($validateAttributes):
+            return $validateAttributes;
+        endif;
+        try{
+            $input = $request->all();
+           
+            if($input['status'] == '1'){
+                Payment::where('user_id', Auth::id())->update(['set_default' =>'0']);
+               
+            }
+            
+            Payment::where('id',$input['card_id'])->where('user_id', Auth::id())->update(['set_default' => '1']);
+          
+            $cards = Payment::where('user_id', Auth::id())->orderBy('created_at', 'DESC')->get();
+           
+            return parent::success(["Card set to default successfully!",'cards' => $cards]);
+        }catch(\Exception $ex){
+            return parent::error($ex->getMessage());
+        }
+    }
+    
+    
      public function ClientViewBookingById(Request $request){
 //   dd(Auth::id());
         $rules = ['booking_id' => 'required'];

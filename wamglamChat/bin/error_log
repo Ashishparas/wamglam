@@ -106,3 +106,8 @@ Stack trace:
 [28-Apr-2022 10:34:24 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/wamglamz/public_html/wamglamChat/src/Chat.php on line 104
 [28-Apr-2022 10:35:05 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/wamglamz/public_html/wamglamChat/src/Chat.php on line 104
 [28-Apr-2022 10:39:43 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/wamglamz/public_html/wamglamChat/src/Chat.php on line 104
+[28-Apr-2022 10:45:37 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/wamglamz/public_html/wamglamChat/src/Chat.php on line 104
+[28-Apr-2022 11:02:03 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/wamglamz/public_html/wamglamChat/src/Chat.php on line 104
+[28-Apr-2022 11:03:03 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/wamglamz/public_html/wamglamChat/src/Chat.php on line 104
+[28-Apr-2022 11:48:15 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/wamglamz/public_html/wamglamChat/src/Chat.php on line 104
+[28-Apr-2022 11:51:17 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/wamglamz/public_html/wamglamChat/src/Chat.php on line 104

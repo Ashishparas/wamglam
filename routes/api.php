@@ -83,8 +83,8 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'namespace' => 'API'], func
     Route::post('confirm/schedule', 'ArtistController@ConfirmSchedule'); 
     Route::post('edit/artist/services', 'ArtistController@EditServices');  
     Route::post('services', 'ArtistController@Services');
-    Route::post('men/services', 'ArtistController@MenServices');   
-    
+    Route::post('men/services', 'ArtistController@MenServices');    
+    Route::post('set/default/card', 'ArtistController@SetDefaultPayment');
     
     
     Route::post('add/services', 'ArtistController@AddServices'); 
