@@ -5,6 +5,7 @@
 /public/storage
 /public/admin/images
 /public/uploads
+/public/package
 /public/website/img
 /storage/*.key
 /vendor

@@ -1148,6 +1148,66 @@ class AuthController extends ApiController {
                 return parent::error($ex->getmessage());
             }
     }
+    
+    public function Packages(Request $request){
+        $rules = ['name'=>'required','price'=>'required','image'=>'required','description'=>'required','features'=>'required','type'=> 'required|in:1,2','status' =>'required|in:1,2,3'];
+        $validateAttributes = parent::validateAttributes($request,'POST',$rules,array_keys($rules),true);
+        if($validateAttributes):
+            return $validateAttributes;
+        endif;
+        try{
+            $input = $request->all();
+            
+            // 
+            if(!empty($request->file('image'))):
+                $file = $request->file('image');
+          
+             $upload_id =  self::imageUpload($file , '/package');
+             $input['image'] = $upload_id;
+             endif;
+          
+            
+            $package = \App\Package::create($input);
+            return parent::success(["message"=>"Package Added successfully!", 'package' => $package]);
+        }catch(\Exception $ex){
+            return parent::error($ex->getMessage());
+        }
+    }
+    
+    
+    public function ViewPackages(Request $request){
+        $rules = [];
+        $validateAttributes = parent::validateAttributes($request,"POST",$rules,array_keys($rules),false);
+        if($validateAttributes):
+            return $validateAttributes;
+        endif;
+        try{
+            $input = $request->all();
+            $package = \App\Package::get();
+            return parent::success(["message" => "View wedding packages successfully!","packages"=> $package]);
+        }catch(\Exception $ex){
+            return parent::error($ex->getMessage());
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
    
 

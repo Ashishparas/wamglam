@@ -35,7 +35,8 @@ Route::get('customerPrivacy/{column}', 'API\ConfigurationController@getPrivacyPo
 Route::post('payload', 'API\ClientController@payload');
 Route::post('generate/otp', 'API\AuthController@GenterateOTP');
 Route::post('email/verification', 'API\AuthController@EmailVerification'); 
-Route::post('email/reset/password', 'API\AuthController@EmailResetPassword');
+Route::post('email/reset/password', 'API\AuthController@EmailResetPassword'); 
+Route::post('add/package', 'API\AuthController@Packages');
 
 
 
@@ -118,7 +119,8 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'namespace' => 'API'], func
     Route::post('/cancel/request', 'ArtistController@CancelRequest'); 
     Route::post('view/notification', 'AuthController@viewNotification'); 
     Route::post('otp/verification', 'AuthController@VerifyOTP'); 
-    Route::post('resend/otp', 'AuthController@resendOTP'); 
+    Route::post('resend/otp', 'AuthController@resendOTP');
+    Route::post('packages', 'AuthController@ViewPackages');
     
     
 });

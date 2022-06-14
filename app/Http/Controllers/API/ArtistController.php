@@ -450,8 +450,15 @@ class ArtistController extends ApiController
             return $validateAttributes;
         endif;
         try{
+            
+            if(Auth::user()->type === '1'){
              $Mencategory = Main_category::where('slug','2')->with(['subCategory'])->get();
-            $Maincategory = Main_category::where('slug','1')->with(['subCategory'])->get();
+            $Maincategory = Main_category::where('slug','1')->with(['subCategory'])->get();   
+            }elseif(Auth::user()->type === '2'){
+                 $Mencategory = Main_category::where('slug','2')->whereNotIn('title','Wedding package')->with(['subCategory'])->get();
+                $Maincategory = Main_category::where('slug','1')->whereNotIn('title','Wedding package')->with(['subCategory'])->get();   
+            }
+             
             return parent::success(['message' => 'Service added successfully', 'women' => $Maincategory,'men' => $Mencategory, 'base_url' => url('uploads/category')]); 
             
         }catch (\Exception $ex){
