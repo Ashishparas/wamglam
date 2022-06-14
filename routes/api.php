@@ -121,6 +121,8 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'namespace' => 'API'], func
     Route::post('otp/verification', 'AuthController@VerifyOTP'); 
     Route::post('resend/otp', 'AuthController@resendOTP');
     Route::post('packages', 'AuthController@ViewPackages');
+    Route::post('create/gift', 'AuthController@CreateGift'); 
+    Route::post('view/gifts', 'AuthController@ViewGift');
     
     
 });

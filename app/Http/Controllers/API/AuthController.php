@@ -1191,6 +1191,45 @@ class AuthController extends ApiController {
     }
     
     
+    public function CreateGift(Request $request){
+        $rules = ['name'=>'required','price'=>'required','image'=>'required'];
+        $validateAttributes = parent::validateAttributes($request,'POST',$rules,array_keys($rules),true);
+        if($validateAttributes):
+            return $validateAttributes;
+        endif;
+        try{
+            $input = $request->all();
+            
+            // 
+            if(!empty($request->file('image'))):
+                $file = $request->file('image');
+          
+             $upload_id =  self::imageUpload($file , '/package');
+             $input['image'] = $upload_id; 
+             endif;
+          
+            
+            $package = \App\Gift::create($input);
+            return parent::success(["message"=>"Package Added successfully!", 'package' => $package]);
+        }catch(\Exception $ex){
+            return parent::error($ex->getMessage());
+        }
+    }
+    
+    public function ViewGift(Request $request){
+        $rules = [];
+        $validateAttributes = parent::validateAttributes($request,"POST",$rules,array_keys($rules),false);
+        if($validateAttributes):
+            return $validateAttributes;
+        endif;
+        try{
+            $input = $request->all();
+            $gift = \App\Gift::orderBy('id','DESC')->get();
+            return parent::success(["message" => "View all gifts successfully!","packages"=> $gift]);
+        }catch(\Exception $ex){
+            return parent::error($ex->getMessage());
+        }
+    }
     
     
     
