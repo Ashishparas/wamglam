@@ -1176,14 +1176,19 @@ class AuthController extends ApiController {
     
     
     public function ViewPackages(Request $request){
-        $rules = [];
-        $validateAttributes = parent::validateAttributes($request,"POST",$rules,array_keys($rules),false);
+        $rules = ['type' => 'required|in:1,2'];
+        $validateAttributes = parent::validateAttributes($request,"POST",$rules,array_keys($rules),true);
         if($validateAttributes):
             return $validateAttributes;
         endif;
         try{
             $input = $request->all();
-            $package = \App\Package::get();
+            if($request->type === '1'){
+                $package = \App\Package::where('type','1')->get();    
+            }else if($request->type === '2'){
+                $package = \App\Package::where('type','2')->get();    
+            }
+            
             return parent::success(["message" => "View wedding packages successfully!","packages"=> $package]);
         }catch(\Exception $ex){
             return parent::error($ex->getMessage());
