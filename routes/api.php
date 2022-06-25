@@ -123,6 +123,7 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'namespace' => 'API'], func
     Route::post('packages', 'AuthController@ViewPackages');
     Route::post('create/gift', 'AuthController@CreateGift'); 
     Route::post('view/gifts', 'AuthController@ViewGift');
+    Route::post('send/package/mail','AuthController@SendPackage');
     
     
 });
@@ -154,4 +155,5 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'namespace' => 'API'], func
     Route::post('get/message', 'API\MessagesController@getMessage');
     Route::post('message/list', 'API\MessageController@getItems');
     Route::post('message', 'API\MessageController@getItem');
+    
 });

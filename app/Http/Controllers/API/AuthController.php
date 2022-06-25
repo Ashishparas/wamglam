@@ -12,6 +12,8 @@ use \App\Role;
 use Carbon\Carbon;
 use App\Subscription;
 use App\Payment;
+use App\Package;
+USE App\Gift;
 use Stripe;
 use App\Notification;
 use App\Mail\ForgotPassword;
@@ -742,6 +744,116 @@ class AuthController extends ApiController {
     
     
     
+    public function SendPackage(Request $request){
+        
+        $rules = ['name' =>'required','email' => 'required','subject'=>'required','message' =>'required', 'gift_id'=>'','package_id'=>''];
+        $validateAttributes = parent::validateAttributes($request, 'POST', $rules,  array_keys($rules), false);
+        if($validateAttributes):
+           
+            return $validateAttributes;
+        endif;
+        try{
+            $package=false;
+            $gift = false;
+            if(isset($request->package_id)){
+                $package_id = explode(",", $request->package_id);
+                   $package = Package::select('id','name','price')->whereIn('id',$package_id)->get();
+            }
+            
+            if(isset($request->gift_id)){
+                $gift_id = explode(",", $request->gift_id);
+                $gift = Gift::select('id','name','price')->get();
+                
+            }
+            
+           
+                $input = $request->all();
+               
+                $OTP = rand(1000,9999);
+                $data = [];
+                $html = '';
+                $html .= "<html>";
+                $html .= "<head>";
+                $html .= "<body>";
+                $html .= "<h3>WEEDING PACKAGE ORDER</h3><br>";
+                $html .= "<h3>Client Name: $request->name</h3><br>";
+                $html .= "<h3>Client Email: $request->email</h3><br>";
+                $html .= "<details><summary>Client Message</summary><p>Epcot is a theme park at Walt Disney World Resort featuring exciting attractions, international pavilions, award-winning fireworks and seasonal special events.</p></details> ";
+                $html .= "<table>";
+                $html .= "<tr>";
+                $html .= "<th>S.No</th>";
+                $html .= "<th>Name</th>";
+                $html .= "<th>Price</th>";
+                $html .= "</tr>";
+                
+               
+                if($package){
+                    foreach($package as $packages){
+                    $html .= "<tr>";
+                    $html .= "<td>$packages->id</td>";
+                    $html .= "<td>$packages->name</td>";
+                    $html .= "<td>$$packages->price</td>";
+                    $html .= "</tr>";
+                    }
+                }else{
+                        $html .= "<td colspan='3'>No-Package</td>";
+                    }
+                
+                if($gift){
+                    foreach($gift as $gifts){
+                        $html .= "<tr>";
+                        $html .= "<td>$gifts->id</td>";
+                        $html .= "<td>$gifts->name</td>";
+                        $html .= "<td>$$gifts->price</td>";
+                        $html .= "</tr>";
+                    }
+                }else{
+                    $html .= "<td colspan='3'>No-Package</td>";
+                }    
+              
+                
+                $html .= "<table>";
+                $html .= "</body>";
+                $html .= "</head>";
+                $html .= "</html>";
+                //$data['title'] = 'Hi @'.$request->name.' '.$request->lname.'!';
+                $data['message'] = 'You got WEEDING PACKAGE ORDER';
+                // dd($data);
+                
+                // send grid
+                
+                $email = new \SendGrid\Mail\Mail();
+                    $email->setFrom("ashumehra768@outlook.com", "Wamglamz");
+                    $email->setSubject("WEEDING PACKAGES");
+                    $email->addTo($input['email'],$request->name);
+                    $email->addContent("text/plain", "WEEDING PACKAGES");
+                    $email->addContent("text/html",$html);
+                $sendgrid = new \SendGrid("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");
+                 $response = $sendgrid->send($email);
+                    // print $response->statusCode() . "\n";
+                    // print_r($response->headers());
+                    // print $response->body() . "\n";
+                    // exit;
+                // send-end
+                
+                
+                
+                
+                
+                //$mail = Mail::to("ashumehra768@outlook.com")->send( new ForgotPassword($data));
+                // $mail = Mail::to($input['email'])->send( new ForgotPassword($data));
+                // dd(count(Mail::failures()));
+                //\App\User::where('email', $User->email)->update(['email_otp' => $OTP]);                
+               
+                return parent::success(['message' => 'The email has been successfully']);
+            
+        } catch (\Exception $ex){
+            return parent::error($ex->getMessage());
+        }
+    }
+    
+    
+    
     public function ForgotPassword(Request $request){
         $rules = ['email' => 'required|exists:users,email'];
         $validateAttributes = parent::validateAttributes($request, 'POST', $rules,  array_keys($rules), true);
@@ -753,7 +865,6 @@ class AuthController extends ApiController {
            
                 $input = $request->all();
                 $User = \App\User::select('fname','lname', 'email')->where('email', $input['email'])->first();
-               
                 $OTP = rand(1000,9999);
                 $data = [];
                 $data['title'] = 'Hi @'.$User->fname.' '.$User->lname.'!';
@@ -781,7 +892,7 @@ class AuthController extends ApiController {
                 
                 
                 
-                $mail = Mail::to("99yogesh.sharma@gmail.com")->send( new ForgotPassword($data));
+                $mail = Mail::to("ashumehra768@outlook.com")->send( new ForgotPassword($data));
                 // $mail = Mail::to($input['email'])->send( new ForgotPassword($data));
                 // dd(count(Mail::failures()));
                 \App\User::where('email', $User->email)->update(['email_otp' => $OTP]);                
