@@ -828,7 +828,7 @@ class AuthController extends ApiController {
                     $email->addTo($input['email'],$request->name);
                     $email->addContent("text/plain", "WEEDING PACKAGES");
                     $email->addContent("text/html",$html);
-                $sendgrid = new \SendGrid("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");
+                $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
                  $response = $sendgrid->send($email);
                     // print $response->statusCode() . "\n";
                     // print_r($response->headers());
