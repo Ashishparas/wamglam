@@ -181,7 +181,7 @@ class ApiController extends \App\Http\Controllers\Controller {
     }
 
     protected static function sendOTPUser(User $user) {
-    // dd($user);
+   
         $otp = mt_rand(1000, 9999);
         $user->otp = $otp;
         $user->save();
