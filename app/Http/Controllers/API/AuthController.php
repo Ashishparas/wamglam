@@ -72,6 +72,8 @@ class AuthController extends ApiController {
 
 
     public function login(Request $request) {
+        
+      
         try {
             $rules = ['email' => 'required', 'password' => 'required'];
             
@@ -823,12 +825,14 @@ class AuthController extends ApiController {
                 // send grid
                 
                 $email = new \SendGrid\Mail\Mail();
-                    $email->setFrom("ashumehra768@outlook.com", "Wamglamz");
+                    $email->setFrom("lionindigitalllc@gmail.com", "Wamglamz");
                     $email->setSubject("WEEDING PACKAGES");
                     $email->addTo($input['email'],$request->name);
                     $email->addContent("text/plain", "WEEDING PACKAGES");
                     $email->addContent("text/html",$html);
-                $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+                    
+                    $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+                
                  $response = $sendgrid->send($email);
                     // print $response->statusCode() . "\n";
                     // print_r($response->headers());
@@ -1299,8 +1303,9 @@ class AuthController extends ApiController {
             }else if($request->type === '2'){
                 $package = \App\Package::where('type','2')->get();    
             }
-            
-            return parent::success(["message" => "View wedding packages successfully!","packages"=> $package]);
+            $gift  = \App\Gift::count();
+           
+            return parent::success(["message" => "View wedding packages successfully!","packages"=> $package, 'gift' => $gift]);
         }catch(\Exception $ex){
             return parent::error($ex->getMessage());
         }

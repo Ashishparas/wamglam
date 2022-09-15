@@ -23,6 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::post('artist/signup', 'API\AuthController@ArtistSignup'); 
 Route::post('signup', 'API\AuthController@Signup'); 
 Route::post('login', 'API\AuthController@login');
+
 //Route::post('artist/login', 'API\AuthController@ArtistLogin');
 Route::post('customer/existence', 'API\AuthController@AuthCheck');
 Route::post('service-provider/login', 'API\AuthController@Artistlogin'); 
