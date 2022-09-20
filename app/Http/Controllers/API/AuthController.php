@@ -474,7 +474,7 @@ class AuthController extends ApiController {
     
     public  function ArtistCreateProfile(Request  $request){
       
-      $rules = ['zipcode' => '', 'experience' => 'required','license_no' => '','upload_id'=>'','profile_picture'=> 'required','fname' =>'required','lname'=>'required'];
+      $rules = ['zipcode' => '', 'experience' => 'required','license_no' => '','upload_id'=>'','profile_picture'=> 'required','fname' =>'required','lname'=>'required','mobile_no'=>'','phonecode'=> ''];
       $validateAttributes = parent::validateAttributes($request,'POST', $rules, array_keys($rules), false);
       if($validateAttributes):
           return $validateAttributes;
@@ -505,7 +505,13 @@ class AuthController extends ApiController {
                 $user['license_no'] = $input['license_no'];
                 $user['fname'] = $input['fname'];
                 $user['lname'] = $input['lname'];
-                // $user['mobile_no'] = $input['mobile_no'];
+                if(isset($request->phonecode)):
+                    $user['phonecode'] = $input['phonecode'];
+                endif;
+                if(isset($request->mobile_no)):
+                    $user['mobile_no'] = $input['mobile_no'];
+                endif;
+                
            
                 $user['status'] = '3';
                 $user->save();
