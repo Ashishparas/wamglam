@@ -427,7 +427,7 @@ class AuthController extends ApiController {
     
     public  function CustomerCreateProfile(Request  $request){
         
-      $rules = ['zipcode' => '', 'dob' => 'required', 'gender' => 'required', 'description'=>'', 'profile_picture'=> 'required','fname'=> 'required','lname'=>'required'];
+      $rules = ['zipcode' => '', 'dob' => 'required', 'gender' => 'required', 'description'=>'', 'profile_picture'=> 'required','fname'=> 'required','lname'=>'required', 'mobile_no'=>'', 'phonecode' => ''];
       
       $validateAttributes = parent::validateAttributes($request, 'POST', $rules, array_keys($rules), false);
       if($validateAttributes):
@@ -453,7 +453,13 @@ class AuthController extends ApiController {
             $user['description'] = $input['description'];
             $user['fname'] = $input['fname'];
             $user['lname'] = $input['lname'];
-            // $user['mobile_no'] = $input['mobile_no'];
+            if(isset($request->mobile_no)):
+                $user['mobile_no'] = $input['mobile_no'];
+            endif;
+            if(isset($request->phonecode)):
+                $user['phonecode'] = $input['phonecode'];
+            endif;
+            
             $user['status'] = '3';
             $user->save();
 //            return parent::success(['message'=>'Profile created successfully', 'data'=> $user]);
