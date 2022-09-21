@@ -655,10 +655,7 @@ class ArtistController extends ApiController
     }
     
     public function UpdateProfile(Request $request){
-        $user = User::findOrFail(Auth::id());
-                if($user->get()->isEmpty()):
-                parent::error('user not found');
-                endif;
+        
         $rules = ['profile_picture' => '','fname' => '', 'lname' => '','email'=>'','phonecode'=>'','mobile_no'=>'', 'zipcode'=>'','experience'=>'','license_no'=>''];
         $validateAttributes = parent::validateAttributes($request, 'POST', $rules, array_keys($rules), false);
         if($validateAttributes):
@@ -666,8 +663,13 @@ class ArtistController extends ApiController
         endif;
         try{
             
-            $input = $request->all();
+            $user = User::findOrFail(Auth::id());
+                if($user->get()->isEmpty()):
+                parent::error('user not found');
+                endif;
             
+            $input = $request->all();
+          
             if(!empty($request->file('profile_picture'))):
                 $file = $request->file('profile_picture');
           
@@ -1001,7 +1003,16 @@ class ArtistController extends ApiController
     
     public function Booking(Request $request){
     //   dd(Auth::user()->custom_id);
-        $rules = ['artist_id'=>'required', 'booking_for'=>'required', 'distance_range_price' => '', 'address'=>'', 'city'=>'', 'zipcode'=>'', 'phone_no'=>'required', 'how_many'=>'', 'services' =>'required', 'title' =>'required','description' =>'required','date'=>'required','from' => 'required','to'=>'required','card_id'=>'required','prefer_type'=>'required','number_of_male'=> '', 'number_of_female' => '', 'payment_token' => 'required','offer' => 'required','total_amt' => 'required','latitide'=>'','longitude' => ''];
+        $rules = ['artist_id'=>'required', 'booking_for'=>'required', 'distance_range_price' => '', 
+                    'address'=>'', 'city'=>'', 'zipcode'=>'', 
+                    'phone_no'=>'required', 'how_many'=>'', 'services' =>'required',
+                    'title' =>'required','description' =>'required',
+                    'date'=>'required','from' => 'required','to'=>'required',
+                    'card_id'=>'required','prefer_type'=>'required','number_of_male'=> '',
+                    'number_of_female' => '', 'payment_token' => 'required',
+                    'offer' => 'required','total_amt' => 'required','latitide'=>'',
+                    'longitude' => ''
+                ];
         $validateAttributes = parent::validateAttributes($request,'POST', $rules, array_keys($rules), true);
         
         if($validateAttributes):
@@ -1011,31 +1022,17 @@ class ArtistController extends ApiController
         try{
           
             $input = $request->all();
-            // dd($input['artist_id']);
             $input['customer_id'] = Auth::id();
            
-            $booking = Booking::Create($input);
-         
-            $booking_data = Booking::where('id', $booking['id'])->with(['user_details','user_rating'])->first();
-          
-            $payment = \App\Payment::where('id', $input['card_id'])->update(['payment_token' => $input['payment_token']]);
-          
-            $clientOffer = \App\ClientDiscount::where('user_id', Auth::id())->first();
-            if(!empty($clientOffer)):
-                $ClientDiscount = \App\ClientDiscount::where('user_id', Auth::id())->update(['percentage' => '0','type' => 'used', 'used_amt' => $input['offer']]); 
-                endif;
-               
-            
-         
-       
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        //   Payment start dev: aSHISH mEHRA
+             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
                 $createCard = $stripe->customers->createSource(
-                    // 'cus_Ks4tFIKWAVjQAu',
+                    // 'cus_MSvub4DF3eKUS4',
                     Auth::user()->custom_id,
-                    ['source' => $input['payment_token']]
+                    ['source' => $request->payment_token]
                     );
-                
+                // dd($createCard);
                 
                 
           $charge =  $stripe->charges->create([
@@ -1045,8 +1042,16 @@ class ArtistController extends ApiController
                 'source' =>   $createCard->id,
                 'description' => 'Booked a Service',
                 ]);
-         
-          
+        // END PAYMENT
+            $booking = Booking::Create($input);
+            $booking_data = Booking::where('id', $booking['id'])->with(['user_details','user_rating'])->first();
+            $payment = \App\Payment::where('id', $input['card_id'])->update(['payment_token' => $input['payment_token']]);
+            $clientOffer = \App\ClientDiscount::where('user_id', Auth::id())->first();
+            
+            if(!empty($clientOffer)):
+                $ClientDiscount = \App\ClientDiscount::where('user_id', Auth::id())->update(['percentage' => '0','type' => 'used', 'used_amt' => $input['offer']]); 
+            endif;
+
               $paymentCharge =   \App\ChargePayment::create([
                     'user_id'     => Auth::id(),
                     'booking_id'  => $booking['id'],
@@ -1167,7 +1172,7 @@ class ArtistController extends ApiController
         
         if($validateAttributes):
             return $validateAttributes;
-            endif;
+        endif;
             
             try{
                 

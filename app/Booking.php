@@ -41,11 +41,11 @@ class Booking extends Model
     }
     
     public function client_details(){
-        return $this->hasOne(User::class, 'id', 'customer_id')->select('id', 'fname', 'lname','email', 'profile_picture');
+        return $this->hasOne(User::class, 'id', 'customer_id')->select('id', 'fname', 'lname','email', 'profile_picture','phonecode','mobile_no');
     }
     
     public function customer_details(){
-        return $this->hasOne(User::class, 'id', 'customer_id')->select('id', 'fname', 'lname','email', 'profile_picture');
+        return $this->hasOne(User::class, 'id', 'customer_id')->select('id', 'fname', 'lname','email', 'profile_picture','phonecode','mobile_no');
     }
     
     // Below code is ot fetch ratings in client details by id
