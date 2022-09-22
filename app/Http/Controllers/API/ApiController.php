@@ -332,7 +332,7 @@ class ApiController extends \App\Http\Controllers\Controller {
     }
 
 
-
+    
     private static function savePushNotification($data, $userId, $receiver_id) {
       
         try {
