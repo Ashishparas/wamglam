@@ -277,6 +277,9 @@ class AuthController extends ApiController {
             'email' => $input['email'],
             'name'  => $fullname,
              ]);
+             $phonecode = str_replace('+','', $request->phonecode);
+             $input['phonecode'] = '+'.$phonecode;
+          
         $input['custom_id'] = $customer->id;
         $user = User::create($input);
     

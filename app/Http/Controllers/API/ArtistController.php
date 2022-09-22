@@ -1024,7 +1024,7 @@ class ArtistController extends ApiController
             $input = $request->all();
             $input['customer_id'] = Auth::id();
            
-        //   Payment start dev: aSHISH mEHRA
+         // Payment start dev: aSHISH mEHRA
              $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
                 $createCard = $stripe->customers->createSource(
@@ -1036,11 +1036,11 @@ class ArtistController extends ApiController
                 
                 
           $charge =  $stripe->charges->create([
-                'amount' => $booking['total_amt'] *100,
+                'amount' => $request->total_amt *100,
                 'currency' => 'usd',
                 'customer' => Auth::user()->custom_id,//Auth::user()->custom_id,
                 'source' =>   $createCard->id,
-                'description' => 'Booked a Service',
+                'description' => 'customer making payment in process of book the artist',
                 ]);
         // END PAYMENT
             $booking = Booking::Create($input);
@@ -1052,7 +1052,21 @@ class ArtistController extends ApiController
                 $ClientDiscount = \App\ClientDiscount::where('user_id', Auth::id())->update(['percentage' => '0','type' => 'used', 'used_amt' => $input['offer']]); 
             endif;
 
-              $paymentCharge =   \App\ChargePayment::create([
+            //   $paymentCharge =   \App\ChargePayment::create([
+            //         'user_id'     => 80,
+            //         'booking_id'  => $booking['id'],
+            //         'charge_id'   => "6546556456",
+            //         'customer_id' => "Abhinav",
+            //         'card_id'     => "Visa",
+            //         'amount'      => 200,
+            //         'currency'    => "USD",
+            //         'brand'        =>  "VISA",
+            //         'network_status' => "success",
+            //         'receipt_url'  => "https:abc.com"
+            //     ]);
+            
+            
+             $paymentCharge =   \App\ChargePayment::create([
                     'user_id'     => Auth::id(),
                     'booking_id'  => $booking['id'],
                     'charge_id'   => $charge->id,
@@ -1064,7 +1078,6 @@ class ArtistController extends ApiController
                     'network_status' => $charge->outcome->seller_message,
                     'receipt_url'  => $charge->receipt_url
                 ]);
-            
 
              $saveNotification=true;
              $dataModel = [
@@ -1255,7 +1268,7 @@ class ArtistController extends ApiController
                 $booking = Booking::where('id', $request->booking_id)->with(['AtistAvgRating','user_details','OfferDetails','CancelNote'])->orderBy('created_at', 'DESC')->first();
              
                 $clientRatings = Rating::select('id','activity_id','rating_to','ratings as rating','reviews')->where('activity_id', $booking->id)->where('rating_to', $booking->artist_id)->where('rating_by', $booking->customer_id)->first();
-               
+                
                 $booking['rating_by_client'] = $clientRatings;
                 
                 // DB::enableQueryLog();
@@ -1264,12 +1277,13 @@ class ArtistController extends ApiController
                 $booking['rating_by_artist'] = $ratings;
                 
                 $charge = \App\ChargePayment::select('charge_id','brand','network_status')->where('user_id', Auth::id())->where('booking_id', $input['booking_id'])->first();
-                //  dd($charge);
+                //  dd(Auth::id());
                 $booking['method'] = $charge['brand'];
                 $booking['transaction_id'] = $charge['charge_id'];
                 $booking['message'] = $charge['network_status'];
-                
+            //   dd($charge);
                 $artist_availability = \App\Availability::select('shop_name','address', 'city','zipcode','availability')->where('user_id', $booking->artist_id)->first();
+              
                 $booking['artist_availability'] = $artist_availability;
                 $booking['artist_availability']['latiude'] = $booking->user_details->latitude;
                 $booking['artist_availability']['longitude'] = $booking->user_details->longitude;
