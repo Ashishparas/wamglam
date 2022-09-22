@@ -1326,8 +1326,8 @@ class ArtistController extends ApiController
                         'data'         => array('title' => 'Request Accepted','body'  => '@'.Auth::user()->fname.' '.Auth::user()->lname.' has accepted your booking request','booking_id' => $detail->id, 'type' => 'request_accept', 'user_type' => Auth::user()->type, 'fname' => Auth::user()->fname, 'lname' => Auth::user()->lname, 'date'=> null, 'start_date'  => null),
                 )];    
                     
-                    
-                    
+                     
+                   
                     $message = 'Request Accepted Successfully!';
                     $text = '@'.Auth::user()->fname.' '.Auth::user()->lname.' has Accepted your booking request';
                     $ClientDetails = \App\User::where('id', $detail['customer_id'])->first();
@@ -1344,7 +1344,7 @@ class ArtistController extends ApiController
                     'payload'     => array(
                         'notification' => array('title' => 'Request Rejected','body'  => '@'.Auth::user()->fname.' '.Auth::user()->lname.' has rejected your booking request','booking_id' => $detail->id, 'type' => 'request_reject', 'user_type' => Auth::user()->type, 'fname' => Auth::user()->fname, 'lname' => Auth::user()->lname, 'date'=> null, 'start_date'  => null),
                         'data'         => array('title' => 'Request Rejected','body'  => '@'.Auth::user()->fname.' '.Auth::user()->lname.' has rejected your booking request','booking_id' => $detail->id, 'type' => 'request_reject', 'user_type' => Auth::user()->type, 'fname' => Auth::user()->fname, 'lname' => Auth::user()->lname, 'date'=> null, 'start_date'  => null),
-                )];
+                    )];
                         
                         
                          $message = 'Request Rejected Successfully!';
@@ -1355,7 +1355,7 @@ class ArtistController extends ApiController
                 $booking = Booking::where('id',$request->booking_id)->update(['status' => $request->status]);
                 
                 $saveNotification=true;
-             
+              
                 parent::pushNotifications($dataModel, Auth::id(), $detail['customer_id'], $saveNotification);
                 
                 return parent::success(['message' => $message]);

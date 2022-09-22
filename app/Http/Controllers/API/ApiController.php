@@ -338,12 +338,14 @@ class ApiController extends \App\Http\Controllers\Controller {
             if (isset($data['payload']))
             
                 $DeviceType = UserDevice::where('user_id', $data['to'])->first();
-                
-                if($DeviceType['type'] == 'android'):
+                if($DeviceType){
+                    if($DeviceType['type'] == 'android'):
                         unset($data['payload']['notification']);
                 elseif($DeviceType['type'] == 'ios'):
                         unset($data['payload']['data']);
-                endif;
+                endif;    
+                }
+                
             
             
             
